@@ -1,7 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
 import os
-from io import BytesIO
 
 def get_api_key():
     """Retrieve the API key from environment variable or Streamlit secrets."""
@@ -18,14 +17,6 @@ def initialize_gemini():
 
 # Initialize Gemini AI
 model = initialize_gemini()
-
-def process_cv_file(cv_file):
-    try:
-        content = cv_file.read().decode('utf-8')
-        return content
-    except Exception as e:
-        st.error(f"Error processing CV file: {str(e)}")
-        return None
 
 def update_cv(cv_text, job_description, custom_instructions):
     prompt = f"""
@@ -85,8 +76,8 @@ def generate_cover_letter(cv_text, job_description, custom_instructions):
 def main():
     st.set_page_config(page_title="CV and Cover Letter Generator", layout="wide")
 
-    st.title("CV and Cover Letter Generator (Powered by Google Gemini AI)")
-    st.write("Upload your CV or paste its content, then provide the job description to generate tailored documents.")
+    ## st.title("CV and Cover Letter Generator (Powered by Google Gemini AI)")
+    st.write("Paste your CV content and the job description to generate tailored documents.")
 
     # Check if API key is set
     if not get_api_key():
@@ -97,18 +88,7 @@ def main():
         st.code("GOOGLE_API_KEY = 'your_api_key_here'")
         st.stop()
 
-    # CV input method selection
-    cv_input_method = st.radio("Choose how to input your CV:", ("Upload File", "Paste Text"))
-
-    if cv_input_method == "Upload File":
-        uploaded_file = st.file_uploader("Upload your CV (TXT format)", type="txt")
-        if uploaded_file:
-            cv_text = process_cv_file(uploaded_file)
-        else:
-            cv_text = None
-    else:
-        cv_text = st.text_area("Paste your CV content here", height=300)
-
+    cv_text = st.text_area("Paste your CV content here", height=300)
     job_description = st.text_area("Paste the job description here")
 
     custom_cv_instructions = st.text_area("Custom instructions for CV revamp (optional)")
