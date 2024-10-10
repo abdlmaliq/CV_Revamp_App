@@ -76,7 +76,7 @@ def generate_cover_letter(cv_text, job_description, custom_instructions):
 def main():
     st.set_page_config(page_title="CV and Cover Letter Generator", layout="wide")
 
-    ## st.title("CV and Cover Letter Generator (Powered by Google Gemini AI)")
+    st.title("CV and Cover Letter Generator")
     st.write("Paste your CV content and the job description to generate tailored documents.")
 
     # Check if API key is set
